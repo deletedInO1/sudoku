@@ -14,30 +14,6 @@ first_board = [
     [0, 0, 0, 0, 6, 0, 5, 0, 0]
 ]
 
-def check_row(board, x, y):
-    for i in range(9):
-        if board[y][x] == board[y][i] and x != i:
-            return False
-    return True
-
-def check_column(board, x, y):
-    for i in range(9):
-        if board[y][x] == board[i][x] and i != y:
-            return False
-    return True
-
-def check_box(board, x, y):
-    box_x = x // 3
-    box_y = y // 3
-    for i in range(3):
-        for j in range(3):
-            i2 = i + 3*box_x
-            j2 = j + 3*box_y
-            if x == i2 and y == j2:
-                continue
-            if board[y][x] == board[j2][i2]:
-                return False
-    return True
 
 class SudokuSolver(Backtracking):
 
@@ -88,9 +64,20 @@ class SudokuSolver(Backtracking):
         return pos >= 81
 
 
+def calc_time():
+
+    count = 0
+    t_sum = 0
+    for i in range(1000):
+        t1 = time.time()
+        b = solver.solve(first_board)
+        t2 = time.time()
+        count += 1
+        t = t2-t1
+        t_sum += t
+    print(t_sum / count)
+
 if __name__ == '__main__':
-    #b = solve(first_board[:], 0, 0)
-    #exit()
     solution = [
         [1, 6, 2, 5, 4, 8, 7, 9, 3],
         [9, 8, 5, 7, 3, 2, 4, 6, 1],
@@ -103,23 +90,7 @@ if __name__ == '__main__':
         [2, 3, 9, 1, 6, 4, 5, 7, 8],
     ]
     solver = SudokuSolver()
-    lel = [[0 for i in range(9)] for j in range(9)]
-    b = solver.solve(lel)
-    # count = 0
-    # t_sum = 0
-    # for i in range(1000):
-    #     t1 = time.time()
-    #     b = solver.solve(first_board)
-    #     t2 = time.time()
-    #     count += 1
-    #     t = t2-t1
-    #     t_sum += t
-    # print(t_sum / count)
-    for i in range(9):
-        for j in range(9):
-            if not check_row(solution, i, j) or not check_column(solution, i, j) or not check_box(solution, i, j):
-                print("!")
-    #print(b)
+    b = solver.solve(first_board)
     for i in range(9):
         for j in range(9):
             if solution[i][j] != b[i][j]:

@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-class Backtracking:
+class Backtracking(ABC):
     def __init__(self):
         pass
 
